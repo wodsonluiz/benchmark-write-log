@@ -1,4 +1,4 @@
-# benchmark-write-log
+# benchmark-write-log :chart_with_upwards_trend:
 Repository fot testing perfomance with written log
 
 Teste de estresse com refatoração :white_check_mark:
