@@ -19,7 +19,7 @@ namespace BenchmarkWriteLog.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]LogRequest logRequest, CancellationToken cancellationToken)
         {
-            var wasWritten = await _service.WriteLogAsync(logRequest, cancellationToken);
+            var wasWritten = await _service.WriteLogV2Async(logRequest);
 
             if(wasWritten)
                 return StatusCode(200);

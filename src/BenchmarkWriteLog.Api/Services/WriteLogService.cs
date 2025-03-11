@@ -15,17 +15,16 @@ namespace BenchmarkWriteLog.Api.Services
 
         public Task<bool> WriteLogAsync(LogRequest logRequest, CancellationToken cancellationToken)
         {
+            if(!ValidLog(logRequest))
+            {
+                _logger.Error("Erro para escrever log");
+                return Task.FromResult(false);
+            }
+                    
             return Task.Run(() => {
                 
                 try
                 {
-                    if(!ValidLog(logRequest))
-                    {
-                        _logger.Error("Erro para escrever log");
-
-                        return false;
-                    }
-
                     _logger.Information("Log {0}:", JsonSerializer.Serialize(logRequest));
                 }
                 catch (Exception ex)
@@ -37,6 +36,27 @@ namespace BenchmarkWriteLog.Api.Services
                 return true;
 
             }, cancellationToken);
+        }
+
+        public Task<bool> WriteLogV2Async(LogRequest logRequest)
+        {
+            if(!ValidLog(logRequest))
+            {
+                _logger.Error("Erro para escrever log");
+                return Task.FromResult(false);
+            }
+             
+            try
+            {
+                _logger.Information("Log {0}:", JsonSerializer.Serialize(logRequest));
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Erro para escrever log");
+                return Task.FromResult(false);
+            }
+
+            return Task.FromResult(true);
         }
 
         private static bool ValidLog(LogRequest logRequest)
